@@ -1,6 +1,6 @@
 # VEXIS-1.2
 
-![VEXIS-1.2](![alt text](image.png))
+![VEXIS-1.2](image.png)
 
 ## Overview
 
