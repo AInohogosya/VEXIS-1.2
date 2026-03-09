@@ -132,8 +132,9 @@ class CleanInteractiveMenu:
             print(f"\033[K", end="", flush=True)  # Clear line
             
             if i == self.current_index:
-                # Highlighted selection with proper yellow background
-                print(f"{Colors.BG_YELLOW}{Colors.BLACK}  ▶ [{i+1}] {item['icon']} {item['display_name']}{Colors.RESET}", end="", flush=True)
+                # Highlighted selection with proper yellow background - calculate exact width
+                item_text = f"  ▶ [{i+1}] {item['icon']} {item['display_name']}"
+                print(f"{Colors.BG_YELLOW}{Colors.BLACK}{item_text}{Colors.RESET}", end="", flush=True)
             else:
                 # Normal option
                 print(f"  [{i+1}] {item['icon']} {item['display_name']}", end="", flush=True)
@@ -143,7 +144,9 @@ class CleanInteractiveMenu:
             print(f"\033[K", end="", flush=True)  # Clear description line
             
             if i == self.current_index:
-                print(f"{Colors.BG_YELLOW}{Colors.BLACK}       {item['description']}{Colors.RESET}", end="", flush=True)
+                # Highlighted description with proper yellow background
+                desc_text = f"       {item['description']}"
+                print(f"{Colors.BG_YELLOW}{Colors.BLACK}{desc_text}{Colors.RESET}", end="", flush=True)
             else:
                 print(f"       {item['description']}", end="", flush=True)
     
@@ -249,13 +252,16 @@ class CleanInteractiveMenu:
         # Clear the menu area and redraw
         for i, item in enumerate(self.items):
             if i == self.current_index:
-                # Highlighted selection with yellow background
-                print(f"{Colors.BG_YELLOW}{Colors.BLACK}  ▶ [{i+1}] {item['icon']} {item['display_name']}{Colors.RESET}")
-                print(f"{Colors.BG_YELLOW}{Colors.BLACK}       {item['description']}{Colors.RESET}")
+                # Highlighted selection with yellow background - ensure exact width match
+                item_text = f"  ▶ [{i+1}] {item['icon']} {item['display_name']}"
+                desc_text = f"       {item['description']}"
+                # Clear entire line first, then apply yellow background
+                print(f"\033[K{Colors.BG_YELLOW}{Colors.BLACK}{item_text}{Colors.RESET}")
+                print(f"\033[K{Colors.BG_YELLOW}{Colors.BLACK}{desc_text}{Colors.RESET}")
             else:
-                # Normal option
-                print(f"  [{i+1}] {item['icon']} {item['display_name']}")
-                print(f"       {item['description']}")
+                # Normal option - clear line first
+                print(f"\033[K  [{i+1}] {item['icon']} {item['display_name']}")
+                print(f"\033[K       {item['description']}")
             print()
     
     def fallback_selection(self) -> Optional[Any]:
